@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Turbinando o client-side com Backbone.js</title>
+
+		<meta name="description" content="Saiba como desenvolver aplicações inteligentes no lado do cliente">
+		<meta name="author" content="Tiago Romero Garcia">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/starwars.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section data-background="lib/img/c3po.jpg" class="logo-box">
+					<div class="bg"></div>
+					<div class="content">
+						<h2>Turbinando o client-side com</h2>
+						<img class="logo" src="lib/img/backbone.png"></img>
+						<br/><br/><br/>
+						<p>Tiago Romero Garcia</p>
+					</div>
+				</section>
+
+				<section>
+					<section data-background="lib/img/c3po.jpg" class="logo-box">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Quem sou?</h2>
+   						<img src="lib/img/tiago-she.JPG" class="me">
+							<p class="fragment block">Tiago Romero Garcia</p>
+							<p class="fragment subtitle block">
+								Gerente Técnico na Avenue Code<br>
+								Líder Técnico de Front-End<br>
+								Desenvolvedor Full-Stack
+							</p>
+							<p class="fragment subtitle block">
+								<a href="http://twitter.com/tiagooo_romero">@tiagooo_romero</a><br/>
+								<a href="http://tgarcia.com.br">tgarcia.com.br</a><br/>
+								<a href="http://github.com/tiagorg">github.com/tiagorg</a>
+							</p>
+						</div>
+					</section>
+					<section>
+						<h2>Meu trabalho</h2>
+				    <img src="lib/img/ac-logo.jpg" class="ac">
+						<ul class="fragment block list">
+							<li>Metodologias ágeis</li>
+							<li>Nearshoring</li>
+							<li>English as official language</li>
+							<li>Ambiente inovador</li>
+							<li>Viagens internacionais</li>
+						</ul>
+						<br/><br/>
+						<p class="fragment block">
+							<a href="http://www.avenuecode.com.br">www.avenuecode.com.br</a><br/>
+							Be part of the BEST!
+						</p>
+					</section>
+				</section>
+
+				<section>
+					<p class="intro">Há muito tempo atrás, em uma galáxia muito,<br> muito distante....</p>
+				</section>
+
+			  <section>
+				  <audio preload="auto">
+				    <source src="lib/audio/Star_Wars_original_opening_crawl_1977.ogg" type="audio/ogg" />
+				    <source src="lib/audio/Star_Wars_original_opening_crawl_1977.mp3" type="audio/mpeg" />
+				  </audio>
+
+			  	<div class="titles">
+			    <div contenteditable="true" spellcheck="false">
+			      <p>
+			        É tempo de guerra dos navegadores.
+			        Desenvolvedores rebeldes, atacando
+			        de uma base escondida, tiveram
+			        sua primeira vitória contra o
+			        temível Império da Microsoft.
+			      </p>
+
+			      <p>
+			        Durante a batalha, espiões
+			        rebeldes conseguiram roubar
+			        os planos da arma definitiva
+			        do Império, o INTERNET EXPLORER 6,
+			        um navegador armado com poder
+			        suficiente para destruir uma
+			        conexão de Internet por completo.
+			      </p>
+
+			      <p>
+			      	Perseguido pelos agentes
+			      	sinistros do Império, nossos
+			      	heróis correm contra o tempo
+			      	para diminuir o tempo de resposta
+			      	e melhorar a navegação web
+			      	para salvar os usuários e restaurar a
+			      	liberdade na galáxia....
+			      </p>
+			      </div>
+			    </div>
+			  </section>
+
+				<section data-background="lib/img/starwars.png">
+					<section class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Agenda</h2>
+							<ul>
+								<li class="fragment">Javascript e o Hiperespaço</li>
+								<li class="fragment">Arquitetura web
+									<ul>
+										<li>Client-side x Server-side</li>
+										<li>REST</li>
+										<li>JSON</li>
+										<li>MVC</li>
+										<li>Aplicações no client-side x Frameworks web</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Agenda</h2>
+							<ul>
+								<li class="fragment">Backbone.js
+									<ul>
+										<li>Model</li>
+										<li>Collection</li>
+										<li>View</li>
+										<li>Router</li>
+										<li>Templates dinâmicos</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+				</section>
+
+				<section data-background="lib/img/hyperspace.jpg"></section>
+
+				<section data-background="lib/img/hyperspace.jpg" class="reading strong">
+					<div class="bg strong"></div>
+					<div class="content">
+					<h2>Javascript e o Hiperespaço</h2>
+						<ul>
+							<li class="fragment">Hiperespaço: uma dimensão acima</li>
+							<li class="fragment">Somente enxergamos até a dimensão máxima atual</li>
+							<li class="fragment">Considere 3 dimensões para um navegador:
+								<ul>
+									<li class="fragment"><span class="strong">Renderização gráfica:</span> HTML/CSS</li>
+									<li class="fragment"><span class="strong">Elementos:</span> DOM</li>
+									<li class="fragment"><span class="strong">Comportamento:</span> JS</li>
+								</ul>
+							</li>
+							<li class="fragment">A quarta dimensão é seu hiperespaço. Como seria?</li>
+						</ul>
+					</div>
+				</section>
+
+				<section data-background="lib/img/starwars.png" class="reading">
+					<div class="bg"></div>
+					<div class="content">
+						<h2>Arquitetura web</h2>
+						<ul>
+							<li class="fragment">Partes da aplicação:
+								<ul>
+									<li class="fragment"><span class="strong">Front-end:</span> interage com o usuário</li>
+									<li class="fragment"><span class="strong">Back-end:</span> contém lógica de negócio e acesso aos dados/serviços</li>
+								</ul>
+							</li>
+							<li class="fragment">Lados da aplicação:
+								<ul>
+									<li class="fragment"><span class="strong">Client-side:</span> roda no navegador/dispositivo do usuário</li>
+									<li class="fragment"><span class="strong">Server-side:</span> roda em um servidor</li>
+								</ul>
+							</li>
+						</ul>
+						<p class="fragment intro">NÃO SÃO A MESMA COISA!</p>
+					</div>
+				</section>
+
+				<section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Client-side x Server-side</h2>
+							<ul>
+								<li class="fragment">Aplicações web isoladas no client-side:
+									<ul>
+										<li class="fragment"><span class="strong">Somente front-end.</span> Ex: "Calculadora IMC"</li>
+										<li class="fragment"><span class="strong">Front-end e back-end.</span> Ex: "Controle de tarefas" salvando no local storage do navegador</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Client-side x Server-side</h2>
+							<ul>
+								<li class="fragment">Client-side integrado com server-side:
+									<ul>
+										<li class="fragment"><span class="strong">Front-end no client-side, back-end no server-side</span>. Resposta HTTP trafegando HTML. Ex: "Controle de tarefas" em framework web (Struts, JSF, Rails ou ASP.NET MVC)</li>
+										<li class="fragment"><span class="strong">Front-end e back-end no client-side, back-end no server-side</span>. Resposta HTTP trafegando dados. WTF???</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+				</section>
+
+				<section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>REST</h2>
+							<ul>
+								<li class="fragment">REpresentational State Transfer</li>
+								<li class="fragment">Estilo arquitetural <i>stateless</i> para sistemas distribuídos, baseado no protocolo HTTP:
+									<ul>
+										<li class="fragment">Métodos HTTP são verbos (ações)</li>
+										<li class="fragment">URIs são substantivos (recursos)</li>
+										<li class="fragment">Códigos de status HTTP são resposta das ações, como 200 (ok), 404 (not found), 500 (internal server error)</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+					<div class="bg"></div>
+					<div class="content">
+						<h2>REST</h2>
+						<ul>
+							<li class="fragment">Ações REST abordadas hoje:
+								<ul>
+									<li class="fragment"><span class="strong">HTTP POST:</span> criar recurso. Ex:&nbsp;&nbsp;<code class="inline">POST</code> <code class="inline">/users</code> cria um usuário (passando seus dados no corpo da requisição)</li>
+									<li class="fragment"><span class="strong">HTTP GET:</span> ler recurso. Ex:&nbsp;&nbsp;<code class="inline">GET</code> <code class="inline">/users/1</code> recupera o usuário com id = 1</li>
+									<li class="fragment"><span class="strong">HTTP PUT:</span> alterar recurso. Ex:&nbsp;&nbsp;<code class="inline">PUT</code> <code class="inline">/users/1</code> altera o usuário com id = 1 (passando seus dados no corpo)</li>
+									<li class="fragment"><span class="strong">HTTP DELETE:</span> remover recurso. Ex:&nbsp;&nbsp;<code class="inline">DELETE</code> <code class="inline">/users/1</code> remove o usuário com id = 1</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+
+				<section data-background="lib/img/starwars.png" class="reading">
+					<div class="bg"></div>
+					<div class="content">
+						<h2>JSON</h2>
+						<ul>
+							<li class="fragment">JavaScript Object Notation</li>
+							<li class="fragment">Formato universal de transmissão de dados JavaScript</li>
+							<li class="fragment">Tamanho reduzido, formato simplificado, fácil de interpretar -> boa alternativa ao XML
+							</li>
+						</ul>
+							<pre class="fragment"><code data-trim contenteditable>
+{
+  "name": "R2-D2",
+  "owners": ["Anakin", "Leia", "Luke"],
+  "attributes": {
+    "height": 0.96,
+    "mass": 32
+  }
+}
+					</code></pre>
+					</div>
+				</section>
+
+				<section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>MVC</h2>
+							<ul>
+								<li class="fragment">Model-View-Controller</li>
+								<li class="fragment">Padrão de projeto arquitetural que encoraja uma melhor organização da aplicação através da separação de interesses:
+									<ul>
+										<li class="fragment"><span class="strong">Model:</span> dados de negócio</li>
+										<li class="fragment"><span class="strong">View:</span> interface com o usuário</li>
+										<li class="fragment"><span class="strong">Controller:</span> lógica de conexão e entrada de dados</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>MVC em JavaScript</h2>
+							<ul>
+								<li class="fragment">Evita códigos “macarrônicos” (difíceis de ler e manter por não apresentarem estrutura)</li>
+								<li class="fragment">Manutenção geral facilitada, mudanças localizadas</li>
+								<li class="fragment">Agora é possível fazer testes unitários objetivos</li>
+								<li class="fragment">Modularidade permite dividir melhor as tarefas entre desenvolvedores</li>
+							</ul>
+							<p class="fragment intro">MVC É O NOSSO HIPERESPAÇO!!</p>
+						</div>
+					</section>
+				</section>
+
+				<section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Aplicações no client-side x Frameworks web</h2>
+							<ul>
+								<li class="fragment">Frameworks web:
+									<ul>
+										<li class="fragment">Ciclo de vida de cada ação é gerenciado e roteado no server-side</li>
+										<li class="fragment">Template no server-side gera conteúdo HTML</li>
+										<li class="fragment">Resposta HTTP trafega HTML</li>
+										<li class="fragment">Cada ação gera uma recarregamento de página</li>
+										<li class="fragment">Ações são síncronas</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Aplicações no client-side x Frameworks web</h2>
+							<ul>
+								<li class="fragment">Aplicações no client-side:
+									<ul>
+										<li class="fragment">Ciclo de vida de cada ação é gerenciado e roteado no client-side</li>
+										<li class="fragment">Resposta HTTP trafega dados (JSON, XML, etc...)</li>
+										<li class="fragment">Template no client-side gera conteúdo HTML</li>
+										<li class="fragment">Cada ação não gera uma recarregamento de página</li>
+										<li class="fragment">Ações podem ser assíncronas</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+				</section>
+
+				<section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Backbone.js</h2>
+							<ul>
+								<li class="fragment">Biblioteca JavaScript que fornece estrutura para aplicações client-side, baseado em APIs REST com JSON</li>
+								<li class="fragment">Criada em 2010, hoje é usada em grandes sites como Airbnb, BitTorrent, Digg, Foursquare, Hulu, LinkedIn mobile, Pinterest, Trello, Walmart, Wordpress</li>
+								<li class="fragment">Dependente de Underscore.js e jQuery</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Backbone.js</h2>
+							<ul>
+								<li class="fragment">SPA (Single-Page Application): estilo arquitetural que carrega uma única página para a aplicação</li>
+								<li class="fragment">Elementos: Model, Collection, View e Router</li>
+							</ul>
+							<p class="fragment intro">O BACKBONE.JS NÃO É UM FRAMEWORK MVC CLÁSSICO...</p>
+							<p class="fragment intro">...MAS É DA FAMÍLIA MV*, COM OS MESMOS OBJETIVOS!!</p>
+						</div>
+					</section>
+				</section>
+
+				<section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Model</h2>
+							<ul>
+								<li class="fragment">Armazena e manipula dados</li>
+								<li class="fragment">Comunica com API REST</li>
+								<li class="fragment">Suporta parsing, conversão, validação e processamento de lógica de negócio</li>
+							</ul>
+							<pre class="fragment"><code data-trim contenteditable>
+var CardModel = Backbone.Model.extend({
+  urlRoot : '/api/cards'
+});
+							</code></pre>
+							<ul>
+								<li class="fragment"><code class="inline">urlRoot</code> especifica a URL base para as chamadas REST</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Model</h2>
+							<ul>
+								<li class="fragment">Métodos REST:
+									<ul>
+											<li class="fragment"><code class="inline">fetch(options)</code>: recupera uma entidade por HTTP GET</li>
+											<li class="fragment"><code class="inline">save(attributes, options)</code>: cria uma entidade por HTTP POST (se objeto não possuir id) ou altera uma entidade por HTTP PUT (se objeto possuir id)</li>
+											<li class="fragment"><code class="inline">destroy(options)</code>: remove uma entidade por HTTP DELETE</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Model</h2>
+							<ul>
+								<li class="fragment">Parâmetros:
+									<ul>
+										<li class="fragment"><code class="inline">attributes</code>: objeto contendo os dados a serem salvos</li>
+										<li class="fragment"><code class="inline">options</code>: objeto contendo configurações como:
+											<ul>
+												<li class="fragment"><code class="inline">url</code>: URL de conexão com o server-side, ignorando <code class="inline">urlRoot</code></li>
+												<li class="fragment"><code class="inline">success</code>: Função callback para resposta de sucesso</li>
+												<li class="fragment"><code class="inline">error</code>: Função callback para resposta de erro ou timeout</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Model</h2>
+							<pre class="fragment"><code data-trim contenteditable>
+var model = new CardModel({
+  id: 1
+});
+
+// GET /api/cards/1
+model.fetch({
+  success: function(model, response, options) {
+    console.log('Sucesso no fetch! Model = ' + model.toJSON());
+  },
+  error: function(model, response, options) {
+    console.log('Erro ou timeout no fetch.');
+  }
+});
+							</code></pre>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Model</h2>
+							<ul>
+								<li class="fragment">Outros métodos:
+									<ul>
+										<li class="fragment"><code class="inline">get(attribute)</code>: Obtém o valor de um dado do Model. Ex: <code class="inline">card.get('title');</code></li>
+										<li class="fragment"><code class="inline">set(attribute, value)</code>: Define um valor para um dado do Model. Ex: <code class="inline">card.set('title', 'Projeto X');</code>
+										<li class="fragment"><code class="inline">toJSON</code>: Retorna uma cópia dos dados do Model em JSON. Ex: <code class="inline">card.toJSON();</code></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+				</section>
+				<section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Collection</h2>
+							<ul>
+								<li class="fragment">Lista ordenada de Models</li>
+								<li class="fragment">Instancia Models a partir de um array de JSON</li>
+								<li class="fragment">Implementa métodos de arrays do Underscore.js</li>
+							</ul>
+							<pre class="fragment"><code data-trim contenteditable>
+var CardCollection = Backbone.Collection.extend({
+  model : CardModel,
+  url : '/api/cards'
+});
+							</code></pre>
+							<ul>
+								<li class="fragment"><code class="inline">model</code> especifica o Model manipulado</li>
+								<li class="fragment"><code class="inline">url</code> especifica a URL base para as chamadas REST</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Collection</h2>
+							<ul>
+								<li class="fragment">Collections complementam a API REST dos Models com este método:
+									<ul>
+											<li class="fragment"><code class="inline">fetch(options)</code>: recupera um array de entidades por HTTP GET,   popula cada entidade destas como um Model e a insere na Collection</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Collection</h2>
+							<pre class="fragment"><code data-trim contenteditable>
+var cardCollection = new CardCollection();
+
+// GET /api/cards
+cardCollection.fetch({
+  success: function(collection, response, options) {
+    console.log('Sucesso no fetch! Collection = ' + collection.toJSON());
+  },
+  error: function(collection, response, options) {
+    console.log('Erro ou timeout no fetch.');
+  }
+});
+							</code></pre>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Collection</h2>
+							<ul>
+								<li class="fragment">Outros métodos:
+									<ul>
+										<li class="fragment"><code class="inline">get(id)</code>: Obtém um Model a partir de seu id. Ex: <code class="inline">collection.get(12);</code></li>
+										<li class="fragment"><code class="inline">at(index)</code>: Obtém um Model a partir de sua posição na Collection. Ex: <code class="inline">collection.at(1);</code>
+										<li class="fragment"><code class="inline">add(model)</code>: Adiciona um Model na Collection. Ex: <code class="inline">collection.add({'title', 'Projeto X'});</code>
+										<li class="fragment"><code class="inline">remove(id)</code>: Remove um Model da Collection. Ex: <code class="inline">collection.remove(12);</code>
+									</ul>
+  							</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Collection</h2>
+							<ul>
+								<li class="fragment">Outros métodos:
+									<ul>
+										<li class="fragment"><code class="inline">toJSON</code>: Retorna uma cópia dos dados da Collection em JSON. Ex: <code class="inline">collection.toJSON();</code></li>
+										<li class="fragment"><code class="inline">where(attributes)</code>: Retorna apenas os elementos da Collection que corresponderem ao critério especificado. Ex: <code class="inline">collection.where({'type', 'PROJECT'});</code></li>
+										<li class="fragment"><code class="inline">pluck(attribute)</code>: Retorna um array com o valor de um determinado atributo extraído de cada elemento da Collection. Ex: <code class="inline">collection.pluck('title');</code></li>
+									</ul>
+  							</li>
+							</ul>
+						</div>
+					</section>
+				</section>
+
+				<section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>View</h2>
+							<ul>
+								<li class="fragment">Gerencia a lógica de apresentação e os eventos</li>
+								<li class="fragment">Renderiza um template HTML que pode ser adicionado à DOM, consumindo dados de Models/Collections</li>
+								<li class="fragment">O template HTML pode ser gerado dinamicamente.</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>View</h2>
+							<ul>
+								<li class="fragment">Elementos principais a serem implementados:
+									<ul>
+											<li class="fragment"><code class="inline">events</code>: objeto mapeador de eventos, da forma:<br/><code class="inline">'seletor CSS': função</code> / <code class="inline">'nome_de_função'</code></li>
+											<li class="fragment"><code class="inline">render()</code>: método que concentra toda a lógica da View, realizando três etapas:
+												<ul>
+													<li class="fragment">Obtenção do template HTML</li>
+													<li class="fragment">Renderização do template HTML, consumindo um Model ou Collection</li>
+													<li class="fragment">Inserção do resultado da renderização no elemento el</li>
+												</ul>
+											</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>View</h2>
+							<ul>
+								<li class="fragment">Outros elementos da View:
+									<ul>
+										<li class="fragment"><code class="inline">el</code>: elemento HTML renderizado por esta View. Pode ser acessado via <code class="inline">$el</code> como um objeto jQuery</li>
+										<li class="fragment"><code class="inline">id</code>: O atributo <code class="inline">id</code> de <code class="inline">el</code></li>
+										<li class="fragment"><code class="inline">className</code>: O atributo <code class="inline">class</code> de <code class="inline">el</code></li>
+										<li class="fragment"><code class="inline">tagName</code>: A tag HTML a ser utilizada por <code class="inline">el</code></li>
+										<li class="fragment"><code class="inline">remove()</code>: Remove a View da DOM e remove listeners de eventos associados</li>
+									</ul>
+  							</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>View</h2>
+							<pre class="fragment"><code data-trim contenteditable>
+var CardView = Backbone.View.extend({
+  events: {
+    'click button.close': function(e) {
+      e.preventDefault();
+      this.remove();
+    }
+  },
+  render: function() {
+    var result = '<h1>' + this.model.toJSON().title + '</h1>' +
+      '<button class="close">Fechar</button>'),
+    this.$el.html(result);
+  }
+});
+							</code></pre>
+						</div>
+					</section>
+
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>View</h2>
+							<ul>
+								<li class="fragment">Parâmetros da View:
+									<ul>
+										<li class="fragment"><code class="inline">el</code>: pode ser passado um elemento HTML existente para receber conteúdo renderizado pela View</li>
+										<li class="fragment"><code class="inline">model</code>: O Model a ser consumido por <code class="inline">render()</code></li>
+										<li class="fragment"><code class="inline">collection</code>: A Collection a ser consumida por <code class="inline">render()</code></li>
+									</ul>
+  							</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>View</h2>
+							<pre class="fragment"><code data-trim contenteditable>
+var cardModel = new CardModel({ id: 1 });
+
+cardModel.fetch({
+  success: function(model, response, options) {
+    var	cardView = new CardView({
+      model: cardModel
+    );
+    cardView.render();
+    $('#contents').append(cardView.el);
+  },
+  error: function(model, response, options) {
+    console.log('Erro ou timeout no fetch.');
+  }
+});
+							</code></pre>
+						</div>
+					</section>
+				</section>
+
+				<section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Router</h2>
+							<ul>
+								<li class="fragment">Permite a livre manipulação e roteamento de URLs</li>
+								<li class="fragment">Controla o histórico de navegação</li>
+								<li class="fragment">Evita requisições diretas ao server-side</li>
+								<li class="fragment">Elemento principal:
+									<ul>
+										<li class="fragment"><code class="inline">routes</code>: objeto mapeador de rotas, da forma: <br/><code class="inline">'seletor CSS': função</code> / <code class="inline">'nome_de_função'</code></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Router</h2>
+							<ul>
+								<li class="fragment">Outros elementos:
+									<ul>
+										<li class="fragment"><code class="inline">route(path, name)</code>: método que também insere uma rota, mas pode utilizar expressões regulares. Ex: <code class="inline">router.route(/^card/(\d+)$/, 'viewCard');</code></li>
+										<li class="fragment"><code class="inline">navigate(path, options)</code>: método que navega para uma URL. Para também executar a rota, utilize <code class="inline">options</code> como <code class="inline">{trigger: true}</code>. Ex: <code class="inline">router.navigate('/card/32',{trigger: true});</code></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Router</h2>
+							<pre class="fragment"><code data-trim contenteditable>
+var AppRouter = Backbone.Router.extend({
+  routes : {
+    '' : 'viewAll',
+    'card/:id' : 'viewCard',
+    '*path' : 'viewAll'
+  },
+
+  viewAll: function() { ... },
+
+  viewCard: function(id) { ... }
+});
+							</code></pre>
+
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Router</h2>
+							<ul>
+								<li class="fragment">É necessário chamar a função <code class="inline">Backbone.history.start()</code> para iniciar o monitoramento das rotas pelos Routers</li>
+								<li class="fragment">Passe <code class="inline">{pushState: true}</code> para usar o pushState do HTML5. Senão, o roteamento usará # no final da URL</li>
+							</ul>
+							<pre class="fragment"><code data-trim contenteditable>
+var appRouter = new AppRouter();
+
+Backbone.history.start({
+  pushState : true
+});
+							</code></pre>
+
+						</div>
+					</section>
+				</section>
+
+				<section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Templates dinâmicos</h2>
+							<ul>
+								<li class="fragment">O template HTML pode ser gerado por qualquer biblioteca como Underscore.js, Mustache, Handlebars.js, dust.js, etc...</li>
+								<li class="fragment">Mesma idéia do PHP, JSP, ERB, ASP - porém no client-side</li>
+								<li class="fragment">Mais mantenível que strings concatenadas</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="lib/img/starwars.png" class="reading">
+						<div class="bg"></div>
+						<div class="content">
+							<h2>Templates dinâmicos</h2>
+							<ul>
+								<li class="fragment">Handlebars.js: alternativa performática, flexível e fácil de aprender e manipular</li>
+							</ul>
+							<pre class="fragment"><code data-trim contenteditable>
+{{#if children}}
+  <ul>
+    {{#each children}}
+      <li>{{title}}: {{description}}</li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>Não há itens!</p>
+{{/if}}
+							</code></pre>
+						</div>
+					</section>
+				</section>
+
+				<section data-background="lib/img/starwars.png" class="reading">
+					<div class="bg"></div>
+					<div class="content">
+						<h2>Conclusão</h2>
+						<ul>
+							<li class="fragment">Aplicações no client-side buscam reproduzir a experiência do desktop na web</li>
+							<li class="fragment">Aplicações no client-side conseguem reduzir drasticamente a espera do usuário por um feedback</li>
+							<li class="fragment">Assim, aumentam-se as chances de sua permanência no sistema</li>
+							<li class="fragment">O Backbone.js é uma alternativa madura MV* para estruturar aplicações no client-side</li>
+						</ul>
+					</div>
+				</section>
+
+				<section data-background="lib/img/starwars.png" class="reading">
+					<div class="bg"></div>
+					<div class="content">
+						<h2>Saiba mais</h2>
+						<ul>
+							<li class="fragment">Site oficial - <a href="http://backbonejs.org">backbonejs.org</a></li>
+							<li class="fragment">Developing Backbone.js Applications - Addy Osmani - <a href="http://addyosmani.github.io/backbone-fundamentals/">addyosmani.github.io/backbone-fundamentals</a></li>
+							<li class="fragment">The Anatomy of Backbone.js - Codeschool - <a href="http://backbone.codeschool.com/">backbone.codeschool.com</a></li>
+						</ul>
+					</div>
+				</section>
+
+				<section data-background="lib/img/darthvader.jpg">
+					<div class="bg"></div>
+					<div class="content">
+						<h2>Dúvidas?</h2>
+					</div>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+		<script src="lib/js/jquery.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+			$(function() {
+		    var audio = $('audio').get(0);
+				Reveal.addEventListener('slidechanged', function( event ) {
+					if (event.indexh === 3) {
+						audio.currentTime = 8;
+	          audio.play();
+						$('.titles > div').css('top', '600px');
+						$('.titles > div').animate({
+							top: '-1500px'
+						},
+						68000,
+						'linear',
+						function() {
+							audio.pause();
+							Reveal.next();
+						});
+					}
+					else {
+						audio.pause();
+						$('.titles > div').stop();
+					}
+				});
+			});
+
+		</script>
+
+	</body>
+</html>
